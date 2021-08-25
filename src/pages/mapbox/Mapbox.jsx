@@ -56,13 +56,17 @@ export default function Mapbox() {
           <Popup
             latitude={selectedPark.geometry.coordinates[1]}
             longitude={selectedPark.geometry.coordinates[0]}
-            onClose={() => {
-              setSelectedPark(null);
-            }}
           >
             <div style={{backgroundColor:"grey"}}>
-              <h2 style={{padding:0, margin: 0}}>{selectedPark.properties.NAME}</h2>
-              <p style={{padding:0, margin: 0}}>{selectedPark.properties.DESCRIPTIO}</p>
+              <h2 >{selectedPark.properties.NAME}</h2>
+              <p >{selectedPark.properties.DESCRIPTIO}</p>
+              <button
+                type="button"
+                tabIndex="1"
+                onClick={() => {
+                  setSelectedPark(null);
+                }}
+              >Alert hi</button>
             </div>
           </Popup>
         ) : null}
