@@ -12,6 +12,8 @@ export default function Mapbox() {
   });
   const [selectedPark, setSelectedPark] = useState(null);
 
+  const REACT_APP_MAPBOX_TOKEN = "pk.eyJ1IjoicG9pbnRtZWtpbiIsImEiOiJja3NtcHdhYTIwaGc5Mm9wZW1hazN4N2QwIn0.N8QRHcnhEWQAI2EfjmD9iQ"
+
   useEffect(() => {
     const listener = e => {
       if (e.key === "Escape") {
@@ -29,7 +31,7 @@ export default function Mapbox() {
     <div>
       <ReactMapGL
         {...viewport}
-        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        mapboxApiAccessToken={REACT_APP_MAPBOX_TOKEN}
         onViewportChange={viewport => {
           setViewport(viewport);
         }}
