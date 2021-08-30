@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import * as parkDate from "../../data/skateboard-parks.json";
 
 export default function Mapbox() {
+  const mapContainer = useRef(null);
   const [viewport, setViewport] = useState({
     latitude: 45.4211,
     longitude: -75.6903,
@@ -19,7 +20,7 @@ export default function Mapbox() {
       }
     };
     window.addEventListener("keydown", listener);
-
+    console.log(mapContainer.current.getMap())
     return () => {
       window.removeEventListener("keydown", listener);
     };
@@ -33,6 +34,7 @@ export default function Mapbox() {
         onViewportChange={viewport => {
           setViewport(viewport);
         }}
+        ref={mapContainer}
       >
         {parkDate.features.map(park => (
           <Marker
@@ -56,13 +58,18 @@ export default function Mapbox() {
           <Popup
             latitude={selectedPark.geometry.coordinates[1]}
             longitude={selectedPark.geometry.coordinates[0]}
-            onClose={() => {
-              setSelectedPark(null);
-            }}
           >
             <div style={{backgroundColor:"grey"}}>
-              <h2 style={{padding:0, margin: 0}}>{selectedPark.properties.NAME}</h2>
-              <p style={{padding:0, margin: 0}}>{selectedPark.properties.DESCRIPTIO}</p>
+              <h2 >{selectedPark.properties.NAME}</h2>
+              <p >{selectedPark.properties.DESCRIPTIO}</p>
+              <button
+                type="button"
+                tabIndex="1"
+                onClick={() => {
+                  setSelectedPark(null);
+                  console.log(ReactMapGL.getMap())
+                }}
+              >Alert hi</button>
             </div>
           </Popup>
         ) : null}

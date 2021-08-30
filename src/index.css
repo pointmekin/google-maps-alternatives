@@ -31,3 +31,11 @@ code {
 .mapboxgl-popup-tip {
   color: grey;
 }
+
+.gljs-container {
+  height: calc(100vh - 100px);
+}
+
+.map-container {
+  height: 100%;
+}
