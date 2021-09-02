@@ -15,6 +15,32 @@ export default function Mapbox() {
   const [selectedPark, setSelectedPark] = useState(null);
 
   const REACT_APP_MAPBOX_TOKEN = "pk.eyJ1IjoicG9pbnRtZWtpbiIsImEiOiJja3NtcHNqbWEwMTZ5MnVsdzhkZ2Rlemx3In0.IFgugxbVSiUrLl4UtfRdWA"
+  const MAPBOX_STYLE = "mapbox://styles/pointmekin/ckt1bmjq70urh18pbyk3c9rhn";
+
+
+  const [myStyle, setMyStyle] = useState(MAPBOX_STYLE);
+  const onLoad = () => {
+    fetch(
+      `https://api.mapbox.com/styles/v1/${MAPBOX_STYLE.replace(
+        "mapbox://styles/",
+        ""
+      )}?access_token=${REACT_APP_MAPBOX_TOKEN}`
+    )
+      .then(res => res.json())
+      .then(res => {
+        /**
+         * Add the entire style to state, plus add the geojson
+         * source for use later on (inline source doesn't work)
+         * with react-map-gl, requires a string.
+         */
+         setMyStyle({
+          ...res,
+          sources: {
+            ...res.sources,
+          }
+        });
+      });
+  };
 
   useEffect(() => {
     const listener = e => {
@@ -38,10 +64,11 @@ export default function Mapbox() {
         width="100%"
         height="100vh"
         mapboxApiAccessToken={REACT_APP_MAPBOX_TOKEN}
-        mapStyle= {style}
+        mapStyle= {myStyle}
         onViewportChange={viewport => {
           setViewport(viewport);
         }}
+        onLoad={onLoad}
         ref={mapContainer}
       >
         {parkDate.features.map(park => (
